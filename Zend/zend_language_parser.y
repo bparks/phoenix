@@ -213,7 +213,7 @@ static YYSIZE_T zend_yytnamerr(char*, const char*);
 %token T_END_HEREDOC     "heredoc end (T_END_HEREDOC)"
 %token T_DOLLAR_OPEN_CURLY_BRACES "${ (T_DOLLAR_OPEN_CURLY_BRACES)"
 %token T_CURLY_OPEN      "{$ (T_CURLY_OPEN)"
-%token T_PAAMAYIM_NEKUDOTAYIM ":: (T_PAAMAYIM_NEKUDOTAYIM)"
+%token T_DOUBLE_COLON ":: (T_DOUBLE_COLON)"
 %token T_NAMESPACE       "namespace (T_NAMESPACE)"
 %token T_NS_C            "__NAMESPACE__ (T_NS_C)"
 %token T_NS_SEPARATOR    "\\ (T_NS_SEPARATOR)"
@@ -769,7 +769,7 @@ trait_method_reference:
 ;
 
 absolute_trait_method_reference:
-	name T_PAAMAYIM_NEKUDOTAYIM identifier
+	name T_DOUBLE_COLON identifier
 		{ $$ = zend_ast_create(ZEND_AST_METHOD_REFERENCE, $1, $3); }
 ;
 
@@ -1020,9 +1020,9 @@ lexical_var:
 function_call:
 		name argument_list
 			{ $$ = zend_ast_create(ZEND_AST_CALL, $1, $2); }
-	|	class_name T_PAAMAYIM_NEKUDOTAYIM member_name argument_list
+	|	class_name T_DOUBLE_COLON member_name argument_list
 			{ $$ = zend_ast_create(ZEND_AST_STATIC_CALL, $1, $3, $4); }
-	|	variable_class_name T_PAAMAYIM_NEKUDOTAYIM member_name argument_list
+	|	variable_class_name T_DOUBLE_COLON member_name argument_list
 			{ $$ = zend_ast_create(ZEND_AST_STATIC_CALL, $1, $3, $4); }
 	|	callable_expr argument_list
 			{ $$ = zend_ast_create(ZEND_AST_CALL, $1, $2); }
@@ -1087,9 +1087,9 @@ scalar:
 
 constant:
 		name { $$ = zend_ast_create(ZEND_AST_CONST, $1); }
-	|	class_name T_PAAMAYIM_NEKUDOTAYIM identifier
+	|	class_name T_DOUBLE_COLON identifier
 			{ $$ = zend_ast_create(ZEND_AST_CLASS_CONST, $1, $3); }
-	|	variable_class_name T_PAAMAYIM_NEKUDOTAYIM identifier
+	|	variable_class_name T_DOUBLE_COLON identifier
 			{ $$ = zend_ast_create(ZEND_AST_CLASS_CONST, $1, $3); }
 ;
 
@@ -1149,9 +1149,9 @@ simple_variable:
 ;
 
 static_member:
-		class_name T_PAAMAYIM_NEKUDOTAYIM simple_variable
+		class_name T_DOUBLE_COLON simple_variable
 			{ $$ = zend_ast_create(ZEND_AST_STATIC_PROP, $1, $3); }
-	|	variable_class_name T_PAAMAYIM_NEKUDOTAYIM simple_variable
+	|	variable_class_name T_DOUBLE_COLON simple_variable
 			{ $$ = zend_ast_create(ZEND_AST_STATIC_PROP, $1, $3); }
 ;
 
@@ -1164,9 +1164,9 @@ new_variable:
 			{ $$ = zend_ast_create(ZEND_AST_DIM, $1, $3); }
 	|	new_variable T_OBJECT_OPERATOR property_name
 			{ $$ = zend_ast_create(ZEND_AST_PROP, $1, $3); }
-	|	class_name T_PAAMAYIM_NEKUDOTAYIM simple_variable
+	|	class_name T_DOUBLE_COLON simple_variable
 			{ $$ = zend_ast_create(ZEND_AST_STATIC_PROP, $1, $3); }
-	|	new_variable T_PAAMAYIM_NEKUDOTAYIM simple_variable
+	|	new_variable T_DOUBLE_COLON simple_variable
 			{ $$ = zend_ast_create(ZEND_AST_STATIC_PROP, $1, $3); }
 ;
 

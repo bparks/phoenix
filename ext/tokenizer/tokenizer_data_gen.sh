@@ -49,7 +49,7 @@ $AWK '
 	/^#define T_(NOELSE|ERROR)/ { next }
 	/^#define T_/  { print "	REGISTER_LONG_CONSTANT(\"" $2 "\", " $2 ", CONST_CS | CONST_PERSISTENT);" }
 ' < $INFILE >> $OUTFILE
-echo '	REGISTER_LONG_CONSTANT("T_DOUBLE_COLON", T_PAAMAYIM_NEKUDOTAYIM, CONST_CS | CONST_PERSISTENT);' >> $OUTFILE
+echo '	REGISTER_LONG_CONSTANT("T_DOUBLE_COLON", T_DOUBLE_COLON, CONST_CS | CONST_PERSISTENT);' >> $OUTFILE
 echo '}' >> $OUTFILE
 
 
@@ -60,8 +60,8 @@ char *get_token_type_name(int token_type)
 ' >> $OUTFILE
 
 $AWK '
-	/^#define T_PAAMAYIM_NEKUDOTAYIM/ {
-		print "		case T_PAAMAYIM_NEKUDOTAYIM: return \"T_DOUBLE_COLON\";"
+	/^#define T_DOUBLE_COLON/ {
+		print "		case T_DOUBLE_COLON: return \"T_DOUBLE_COLON\";"
 		next
 	}
 	/^#define T_(NOELSE|ERROR)/ { next }
