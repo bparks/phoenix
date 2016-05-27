@@ -1126,6 +1126,10 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_FUNCTION);
 }
 
+<ST_IN_SCRIPTING>"lambda" {
+	RETURN_TOKEN(T_LAMBDA);
+}
+
 <ST_IN_SCRIPTING>"const" {
 	RETURN_TOKEN(T_CONST);
 }
