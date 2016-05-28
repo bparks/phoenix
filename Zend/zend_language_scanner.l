@@ -29,6 +29,13 @@
 # define YYDEBUG(s, c)
 #endif
 
+typedef unsigned short t_interpreter_mode;
+
+#define MODE_INLINE 1
+#define MODE_PHP_ONLY 0
+
+t_interpreter_mode interpreter_mode;
+
 #include "zend_language_scanner_defs.h"
 
 #include <errno.h>
@@ -493,6 +500,12 @@ ZEND_API int zend_multibyte_set_filter(const zend_encoding *onetime_encoding)
 	return 0;
 }
 
+const char *get_filename_ext(const char *filename) {
+    const char *dot = strrchr(filename, '.');
+    if(!dot || dot == filename) return "";
+    return dot + 1;
+}
+
 ZEND_API int open_file_for_scanning(zend_file_handle *file_handle)
 {
 	char *buf;
@@ -545,7 +558,14 @@ ZEND_API int open_file_for_scanning(zend_file_handle *file_handle)
 		zend_error_noreturn(E_COMPILE_ERROR, "zend_stream_mmap() failed");
 	}
 
-	BEGIN(INITIAL);
+	if (strcmp("pc", get_filename_ext(file_handle->filename)) == 0 ||
+		strcmp("pxx", get_filename_ext(file_handle->filename)) == 0 ) {
+		interpreter_mode = MODE_PHP_ONLY;
+		BEGIN(ST_IN_SCRIPTING);
+	} else {
+		interpreter_mode = MODE_INLINE;
+		BEGIN(INITIAL);
+	}
 
 	if (file_handle->opened_path) {
 		compiled_filename = zend_string_copy(file_handle->opened_path);
@@ -1954,8 +1974,12 @@ inline_char_handler:
 }
 
 <ST_IN_SCRIPTING>"?>"{NEWLINE}? {
-	BEGIN(INITIAL);
-	RETURN_TOKEN(T_CLOSE_TAG);  /* implicit ';' at php-end tag */
+	if (interpreter_mode == MODE_INLINE) {
+		BEGIN(INITIAL);
+		RETURN_TOKEN(T_CLOSE_TAG);  /* implicit ';' at php-end tag */
+	} else {
+		zend_error_noreturn(E_COMPILE_ERROR, "PC and PXX files can only contain PHP/Phoenix constructs");
+	}
 }
 
 
