@@ -42,10 +42,10 @@ if test "$PHP_CGI" != "no"; then
     dnl Set filename
     case $host_alias in
       *cygwin* )
-        SAPI_CGI_PATH=sapi/cgi/php-cgi.exe
+        SAPI_CGI_PATH=sapi/cgi/phoenix-cgi.exe
         ;;
       * )
-        SAPI_CGI_PATH=sapi/cgi/php-cgi
+        SAPI_CGI_PATH=sapi/cgi/phoenix-cgi
         ;;
     esac
 

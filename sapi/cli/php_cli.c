@@ -682,7 +682,8 @@ static int do_cli(int argc, char **argv) /* {{{ */
 				goto out;
 
 			case 'v': /* show php version & quit */
-				php_printf("PHP %s (%s) (built: %s %s) ( %s)\nCopyright (c) 1997-2016 The PHP Group\n%s",
+				php_printf("Phoenix %s (%s) (built: %s %s) ( %s)\nCopyright (c) 2016 Brian Parks\n"
+				           "    Forked from PHP 7.1.0, copyright (c) 1997-2016 The PHP Group\n%s",
 					PHP_VERSION, cli_sapi_module.name, __DATE__, __TIME__,
 #if ZTS
 					"ZTS "

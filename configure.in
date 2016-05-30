@@ -1662,14 +1662,15 @@ X
 cat <<X
 +--------------------------------------------------------------------+
 | License:                                                           |
-| This software is subject to the PHP License, available in this     |
+| This software is subject to the BSD License, based on the original |
+| PHP 7.1.0-dev source code under the PHP License, available in this |
 | distribution in the file LICENSE.  By continuing this installation |
 | process, you are bound by the terms of this license agreement.     |
 | If you do not agree with the terms of this license, you must abort |
 | the installation process at this point.                            |
 +--------------------------------------------------------------------+
 
-Thank you for using PHP.
+Thank you for using Phoenix.
 
 X
 
