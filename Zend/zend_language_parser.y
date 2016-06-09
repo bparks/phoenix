@@ -530,11 +530,13 @@ interface_declaration_statement:
 extends_from:
 		/* empty */		{ $$ = NULL; }
 	|	T_EXTENDS name	{ $$ = $2; }
+    |   ':' name        { $$ = $2; }
 ;
 
 interface_extends_list:
 		/* empty */			{ $$ = NULL; }
 	|	T_EXTENDS name_list	{ $$ = $2; }
+    |   ':' name            { $$ = $2; }
 ;
 
 implements_list:
